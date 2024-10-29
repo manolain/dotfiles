@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 ############################
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
-# And also installs MacOS Software
-# And also installs Homebrew Packages and Casks (Apps)
+# And also installs ArchOs Software
 # And also sets up VS Code
 # And also sets up Sublime Text
 ############################
@@ -24,10 +23,7 @@ for file in "${files[@]}"; do
 done
 
 # Run the MacOS Script
-./macOS.sh
-
-# Run the Homebrew Script
-./brew.sh
+./ArchOS.sh
 
 # Run VS Code Script
 ./vscode.sh
