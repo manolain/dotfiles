@@ -1,31 +1,9 @@
 #!/usr/bin/env zsh
 
-# Check if Homebrew's bin exists and if it's not already in the PATH
-if [ -x "/opt/homebrew/bin/brew" ] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
-    export PATH="/opt/homebrew/bin:$PATH"
-fi
-
-# Check if 'subl' command is available
-if ! command -v subl &>/dev/null; then
-    echo "'subl' command not found. Creating symlink for Sublime Text."
-
-    # Creating the symlink for Sublime Text's 'subl' command-line tool
-    # Ensure Sublime Text is installed in the Applications folder
-    if [ -e "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]; then
-        # Create the symlink in /usr/local/bin
-        ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-        echo "Symlink created successfully."
-    else
-        echo "Sublime Text application not found in the expected location. Please ensure it's installed in the Applications folder."
-    fi
-else
-    echo "'subl' command is already available."
-fi
-
 # Open Sublime Text to create necessary folders
 subl .
 
-CONFIG_PATH="$HOME/Library/Application Support/Sublime Text/Installed Packages"
+CONFIG_PATH="$HOME/.config/sublime-text/Installed Packages"
 MAX_WAIT=30 # Maximum number of seconds to wait
 waited=0
 
@@ -46,13 +24,13 @@ fi
 osascript -e 'quit app "Sublime Text"'
 
 # Install Latest version of Package Control
-curl -L -o "$HOME/Library/Application Support/Sublime Text/Installed Packages/Package Control.sublime-package" "https://github.com/wbond/package_control/releases/latest/download/Package.Control.sublime-package"
+curl -L -o "$HOME/.config/sublime-text/Installed Packages/Package Control.sublime-package" "https://github.com/wbond/package_control/releases/latest/download/Package.Control.sublime-package"
 
 # Define paths for clarity and reusability
-USER_PACKAGES_DIR="$HOME/Library/Application Support/Sublime Text/Packages/User"
+USER_PACKAGES_DIR="$HOME/.config/sublime-text/Packages/User"
 
 # Copy packages that should be installed
-cp "settings/Package Control.sublime-settings" "$HOME/Library/Application Support/Sublime Text/Packages/User/Package Control.sublime-settings"
+cp "settings/Package Control.sublime-settings" "$HOME/.config/sublime-text/Packages/User/Package Control.sublime-settings"
 
 # Open Sublime Text to install packages
 echo "Opening Sublime to automatically install packages"
@@ -65,7 +43,6 @@ osascript -e 'quit app "Sublime Text"'
 
 # Copy custom settings, keymaps, and other configurations
 cp "settings/Preferences.sublime-settings" "$USER_PACKAGES_DIR/Preferences.sublime-settings"
-cp "settings/Default (OSX).sublime-keymap" "$USER_PACKAGES_DIR/Default (OSX).sublime-keymap"
 cp "settings/Material-Theme-Darker.sublime-theme" "$USER_PACKAGES_DIR/Material-Theme-Darker.sublime-theme"
 cp "settings/JsPrettier.sublime-settings" "$USER_PACKAGES_DIR/JsPrettier.sublime-settings"
 cp "settings/SublimeLinter.sublime-settings" "$USER_PACKAGES_DIR/SublimeLinter.sublime-settings"
